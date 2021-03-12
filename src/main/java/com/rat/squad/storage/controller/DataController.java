@@ -3,6 +3,8 @@ package com.rat.squad.storage.controller;
 import com.rat.squad.storage.dto.ControllerResult;
 import com.rat.squad.storage.service.DataService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -14,6 +16,7 @@ import java.sql.SQLException;
 
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 public class DataController {
 
     private final DataService dataService;
