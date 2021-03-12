@@ -15,11 +15,11 @@ import java.sql.SQLException;
 @RestController
 @RequiredArgsConstructor
 public class DataController {
+
     private final DataService dataService;
 
     @PostMapping("/data")
     public ControllerResult handleFileUpload(@RequestParam("file") MultipartFile file) throws IOException {
-
         return dataService.save(file);
     }
 
@@ -30,14 +30,14 @@ public class DataController {
 
     @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler({IOException.class, SQLException.class})
-    public ControllerResult handleFileUploadError(Exception e){
+    public ControllerResult handleFileUploadError(Exception e) {
         return ControllerResult.failResult(e.getMessage());
 
     }
 
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
     @ExceptionHandler({EntityNotFoundException.class})
-    public ControllerResult handleNotFoundError(Exception e){
+    public ControllerResult handleNotFoundError(Exception e) {
         return ControllerResult.failResult(e.getMessage());
 
     }
