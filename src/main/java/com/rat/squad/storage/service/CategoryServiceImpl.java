@@ -2,9 +2,11 @@ package com.rat.squad.storage.service;
 
 import com.rat.squad.storage.controller.CategoryController;
 import com.rat.squad.storage.dto.CategoryDto;
+import com.rat.squad.storage.dto.DataDto;
 import com.rat.squad.storage.entity.Category;
 import com.rat.squad.storage.entity.RawData;
 import com.rat.squad.storage.repository.CategoryRepository;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -39,6 +41,22 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     private static CategoryDto convertToCategoryDto(Category category) {
-        return CategoryDto.builder().id(category.getId()).title(category.getTitle()).build();
+        return CategoryDto.builder()
+                .id(category.getId())
+                .title(category.getTitle())
+                .dataList(convertRawDataToDataDtoList(category.getRawData()))
+                .build();
+    }
+
+    private static List<DataDto> convertRawDataToDataDtoList(List<RawData> rawDataList) {
+        return rawDataList.stream()
+                .filter(d -> !d.isDeleted())
+                .map(d -> DataDto.builder()
+                        .id(d.getId())
+                        .actualName(d.getActualName())
+                        .mimeType(d.getMimeType())
+                        .size(d.getSize())
+                        .build())
+                .collect(Collectors.toList());
     }
 }
