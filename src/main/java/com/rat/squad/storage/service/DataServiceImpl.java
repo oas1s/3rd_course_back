@@ -65,7 +65,7 @@ public class DataServiceImpl implements DataService {
             dataRepository.softDeleteById(id);
             categoryRepository.deleteCategoryByTitle(found.getMimeType());
             response.setContentType(found.getMimeType());
-            ContentDisposition contentDisposition = ContentDisposition.builder("inline")
+            ContentDisposition contentDisposition = ContentDisposition.builder("attachment")
                     .filename(found.getActualName())
                     .build();
             response.setHeader(HttpHeaders.CONTENT_DISPOSITION, contentDisposition.toString());
