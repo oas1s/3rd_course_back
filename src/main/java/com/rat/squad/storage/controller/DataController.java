@@ -10,9 +10,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityNotFoundException;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,9 +23,15 @@ public class DataController {
 
     private final DataService dataService;
 
-    @PostMapping("/data")
+    @PostMapping(value = "/data", consumes = "multipart/*")
     public ControllerResult handleFileUpload(@RequestParam("file") MultipartFile file) throws IOException {
         return dataService.save(file);
+    }
+
+    @PostMapping("/data")
+    public ControllerResult handleTextUpload(HttpServletRequest request) throws IOException {
+        return dataService.save( request.getInputStream(),"plain/text", request.getContentLengthLong(),
+                LocalDateTime.now().toString() + "-text.txt");
     }
 
     @GetMapping("/data/{id}")

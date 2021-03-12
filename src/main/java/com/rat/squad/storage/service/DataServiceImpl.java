@@ -6,6 +6,8 @@ import com.rat.squad.storage.entity.RawData;
 import com.rat.squad.storage.repository.CategoryRepository;
 import com.rat.squad.storage.repository.DataRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ContentDisposition;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -13,6 +15,7 @@ import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.Collections;
 import java.util.Optional;
@@ -26,25 +29,30 @@ public class DataServiceImpl implements DataService {
 
     @Override
     public ControllerResult save(MultipartFile file) throws IOException {
+        return save(file.getInputStream(),file.getContentType(), file.getSize(),file.getName());
+    }
+
+    @Override
+    public ControllerResult save(InputStream inputStream, String contentType, Long size, String name) throws IOException {
         RawData rawData = RawData.builder()
-                .data(lobHelper.createBlob(file.getInputStream(), file.getSize()))
+                .data(lobHelper.createBlob(inputStream, size))
                 .deleted(false)
-                .actualName(file.getName())
-                .mimeType(file.getContentType())
-                .size(file.getSize())
+                .actualName(name)
+                .mimeType(contentType)
+                .size(size)
                 .build();
         dataRepository.save(rawData);
-        saveCategory(file, rawData);
+        saveCategory(rawData);
         return ControllerResult.successResult("file saved");
     }
 
-    private void saveCategory(MultipartFile file, RawData rawData) {
-        Optional<Category> category = categoryRepository.findFirstByTitle(file.getContentType());
+    private void saveCategory(RawData rawData) {
+        Optional<Category> category = categoryRepository.findFirstByTitle(rawData.getMimeType());
         if (category.isPresent()) {
             category.get().getRawData().add(rawData);
             categoryRepository.save(category.get());
         } else {
-            categoryRepository.save(Category.builder().title(file.getContentType()).rawData(Collections.singletonList(rawData)).build());
+            categoryRepository.save(Category.builder().title(rawData.getMimeType()).rawData(Collections.singletonList(rawData)).build());
         }
     }
 
@@ -57,6 +65,10 @@ public class DataServiceImpl implements DataService {
             dataRepository.softDeleteById(id);
             categoryRepository.deleteCategoryByTitle(found.getMimeType());
             response.setContentType(found.getMimeType());
+            ContentDisposition contentDisposition = ContentDisposition.builder("inline")
+                    .filename(found.getActualName())
+                    .build();
+            response.setHeader(HttpHeaders.CONTENT_DISPOSITION, contentDisposition.toString());
             lobHelper.writeBLobToOutputStream(found.getData(), response.getOutputStream());
         } else {
             throw new EntityNotFoundException("RawData entity not found");
