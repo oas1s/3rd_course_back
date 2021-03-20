@@ -4,6 +4,7 @@ import com.rat.squad.storage.entity.RawData;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.Optional;
 
@@ -12,5 +13,5 @@ public interface DataRepository extends JpaRepository<RawData, Long> {
 
     @Modifying
     @Query("update RawData r set r.deleted = true where r.id = :id")
-    void softDeleteById(Long id);
+    void softDeleteById(@Param("id") Long id);
 }
