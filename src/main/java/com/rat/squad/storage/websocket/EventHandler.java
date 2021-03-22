@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
-public class GreetingHandler extends TextWebSocketHandler {
+public class EventHandler extends TextWebSocketHandler {
 
     private List<WebSocketSession> sessions = new ArrayList<>();
 

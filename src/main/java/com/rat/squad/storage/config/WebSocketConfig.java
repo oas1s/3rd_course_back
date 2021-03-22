@@ -1,7 +1,6 @@
 package com.rat.squad.storage.config;
 
-import com.rat.squad.storage.websocket.GreetingHandler;
-import org.springframework.beans.factory.annotation.Qualifier;
+import com.rat.squad.storage.websocket.EventHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.socket.WebSocketHandler;
@@ -20,6 +19,6 @@ public class WebSocketConfig implements WebSocketConfigurer {
 
     @Bean
     public WebSocketHandler greetingHandler() {
-        return new GreetingHandler();
+        return new EventHandler();
     }
 }
