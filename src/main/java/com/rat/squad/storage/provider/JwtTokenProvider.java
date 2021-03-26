@@ -15,7 +15,7 @@ import java.util.Date;
 
 @Component
 @RequiredArgsConstructor
-public class JwtTokenProvider {
+public class JwtTokenProvider implements TokenProvider {
     @Value("${security.jwt.token.secret-key:secret}")
     private String secretKey;
     private Algorithm algorithm;

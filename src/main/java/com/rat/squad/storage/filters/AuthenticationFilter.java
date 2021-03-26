@@ -1,6 +1,8 @@
 package com.rat.squad.storage.filters;
 
 import com.rat.squad.storage.provider.JwtTokenProvider;
+import com.rat.squad.storage.provider.TokenProvider;
+import jdk.nashorn.internal.parser.Token;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.annotation.Order;
@@ -18,7 +20,7 @@ import java.util.Enumeration;
 @RequiredArgsConstructor
 public class AuthenticationFilter implements Filter {
 
-    private final JwtTokenProvider jwtTokenProvider;
+    private final TokenProvider tokenProvider;
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
@@ -30,8 +32,8 @@ public class AuthenticationFilter implements Filter {
             log.info("header name " + headerName);
             log.info("value " + req.getHeader(headerName));
         }
-        log.info("authorization token with {} is {}",authorization,jwtTokenProvider.validateToken(authorization));
-        if (!jwtTokenProvider.validateToken(authorization)) {
+        log.info("authorization token with {} is {}",authorization,tokenProvider.validateToken(authorization));
+        if (!tokenProvider.validateToken(authorization)) {
             HttpServletResponse httpServletResponse = (HttpServletResponse) response;
             httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED);
         }
