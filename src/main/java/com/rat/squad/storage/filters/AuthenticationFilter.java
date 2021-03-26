@@ -20,6 +20,12 @@ import java.util.Enumeration;
 @RequiredArgsConstructor
 public class AuthenticationFilter implements Filter {
 
+    /**
+     * Добавлена слабая связность с использованием ДЕКОРАТОРА tokenProvider
+     * TokenProvider используется для проверки token'a, который всегда идет с запросами в header'e
+     * В данном случае есть только одна реализация tokenProvidera это JwtTokenProvider
+     * Он и будет подставлен в это место DI от Spring'a
+     */
     private final TokenProvider tokenProvider;
 
     @Override
