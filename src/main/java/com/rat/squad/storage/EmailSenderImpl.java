@@ -10,7 +10,7 @@ public class EmailSenderImpl  {
 
     public void sendMail(String mail, String letter) throws MessagingException {
         String username = "azatazat835@mail.ru";
-        String password = "azat1504";
+        String password = "somepassword";
         Properties props = new Properties();
         props.put("mail.smtp.host", "smtp.mail.ru");
         props.put("mail.smtp.auth", "true");
