@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class CalculatorTest {
 
     // Функциональные тесты
+    // Проверка операции явной операции "сложение"
     @Test
     public void testStraightAddOperation() {
         Calculator calculator = new Calculator();
