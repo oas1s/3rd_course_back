@@ -40,6 +40,7 @@ public class AuthenticationFilter implements Filter {
         }
         log.info("authorization token with {} is {}",authorization,tokenProvider.validateToken(authorization));
         if (!tokenProvider.validateToken(authorization)) {
+        if (!jwtTokenProvider.validateToken(authorization)) {
             HttpServletResponse httpServletResponse = (HttpServletResponse) response;
             httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED);
         }
