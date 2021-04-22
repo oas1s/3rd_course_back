@@ -8,6 +8,7 @@ import com.rat.squad.storage.entity.RawData;
 import com.rat.squad.storage.repository.CategoryRepository;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
@@ -31,7 +32,8 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public void getByCategory(Long id, HttpServletResponse response) throws IOException, SQLException {
+    @SneakyThrows
+    public void getByCategory(Long id, HttpServletResponse response) {
         Optional<RawData> first = categoryRepository.getOne(id).getRawData().stream().findFirst();
         response.setHeader("Access-Control-Expose-Headers", "Content-Disposition");
         if (first.isPresent()) {
@@ -41,6 +43,11 @@ public class CategoryServiceImpl implements CategoryService {
         }
     }
 
+    /**
+     * FACTORY PATTERN
+     * @param category
+     * @return
+     */
     private static CategoryDto convertToCategoryDto(Category category) {
         return CategoryDto.builder()
                 .id(category.getId())
@@ -49,6 +56,12 @@ public class CategoryServiceImpl implements CategoryService {
                 .build();
     }
 
+    /**
+     * Method making DataDto's from RawData's
+     * @param rawDataList
+     * @return List of Data's
+     * FACTORY PATTERN
+     */
     private static List<DataDto> convertRawDataToDataDtoList(List<RawData> rawDataList) {
         return rawDataList.stream()
                 .filter(d -> !d.isDeleted())

@@ -16,6 +16,11 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 
+/**
+ * Controller for data
+ * Implemented methods: send data as file, send plain/text file, get data by id
+ * Handled response statuses: 404 Not found, 500 Internal Server Error
+ */
 @RestController
 @RequiredArgsConstructor
 @Slf4j

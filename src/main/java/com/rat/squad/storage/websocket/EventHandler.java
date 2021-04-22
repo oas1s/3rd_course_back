@@ -11,25 +11,31 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * WebSocketHandler made for sending updates to front about adding and deleting categories
+ * All extended methods implemented
+ * Added method which sends all saved sessions message
+ */
 @Slf4j
 public class EventHandler extends TextWebSocketHandler {
 
     private List<WebSocketSession> sessions = new ArrayList<>();
 
     @Override
-    public void afterConnectionEstablished(WebSocketSession session) throws Exception {
+    public void afterConnectionEstablished(WebSocketSession session) {
         sessions.add(session);
     }
 
     @Override
-    public void handleTextMessage(WebSocketSession session, TextMessage message) throws InterruptedException, IOException {
+    @SneakyThrows
+    public void handleTextMessage(WebSocketSession session, TextMessage message) {
         Thread.sleep(3000); // simulated delay
         TextMessage msg = new TextMessage("Hello, " + message.getPayload() + "!");
         session.sendMessage(msg);
     }
 
     @Override
-    public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
+    public void afterConnectionClosed(WebSocketSession session, CloseStatus status) {
         sessions.remove(session);
     }
 

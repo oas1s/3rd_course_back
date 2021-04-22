@@ -13,6 +13,11 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
+/**
+ * Controller for categories
+ * Implemented methods: get all categories, get certain category by id
+ * Handled response statuses: 404 Not found
+ */
 @RestController
 @RequiredArgsConstructor
 public class CategoryController {

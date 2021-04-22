@@ -33,7 +33,7 @@ public class DataServiceImpl implements DataService {
     }
 
     @Override
-    public ControllerResult save(InputStream inputStream, String contentType, Long size, String name) throws IOException {
+    public ControllerResult save(InputStream inputStream, String contentType, Long size, String name) {
         RawData rawData = RawData.builder()
                 .data(lobHelper.createBlob(inputStream, size))
                 .deleted(false)

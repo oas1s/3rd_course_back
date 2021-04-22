@@ -1,6 +1,7 @@
 package com.rat.squad.storage.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.apache.commons.io.IOUtils;
 import org.hibernate.SessionFactory;
 import org.hibernate.engine.jdbc.LobCreator;
@@ -12,6 +13,9 @@ import java.io.OutputStream;
 import java.sql.Blob;
 import java.sql.SQLException;
 
+/**
+ * Helper made for writing and creating blobs
+ */
 @Service
 @RequiredArgsConstructor
 public class LobHelper {
@@ -21,7 +25,8 @@ public class LobHelper {
         return sessionFactory.openSession().getLobHelper().createBlob(content, size);
     }
 
-    public void writeBLobToOutputStream(Blob data, OutputStream outputStream) throws SQLException, IOException {
+    @SneakyThrows
+    public void writeBLobToOutputStream(Blob data, OutputStream outputStream) {
         IOUtils.copy(data.getBinaryStream(), outputStream);
     }
 }

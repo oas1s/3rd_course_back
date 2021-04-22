@@ -14,6 +14,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Enumeration;
 
+/**
+ * Filter wich checks all requests for
+ * Authorization header
+ * If its empty or wrong throws 403 Unauthorized Error
+ */
 @Component
 @Order(1)
 @Slf4j
