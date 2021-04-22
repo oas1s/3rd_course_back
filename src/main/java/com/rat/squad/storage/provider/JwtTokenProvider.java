@@ -15,7 +15,12 @@ import java.util.Date;
 
 @Component
 @RequiredArgsConstructor
-public class JwtTokenProvider {
+public class JwtTokenProvider implements TokenProvider {
+    /**
+     * JwtTokenProvider является реализацией интерфейса TokenProvider, являющегося декоратором
+     * Слабая связь помогает нам заменить реализацию валидации токена
+     * Поменяв реализацию в 1 месте, она поменяется во всем проекте
+     */
     @Value("${security.jwt.token.secret-key:secret}")
     private String secretKey;
     private Algorithm algorithm;
