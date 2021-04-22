@@ -33,6 +33,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public void getByCategory(Long id, HttpServletResponse response) throws IOException, SQLException {
         Optional<RawData> first = categoryRepository.getOne(id).getRawData().stream().findFirst();
+        response.setHeader("Access-Control-Expose-Headers", "Content-Disposition");
         if (first.isPresent()) {
             dataService.get(first.get().getId(), response);
         } else {

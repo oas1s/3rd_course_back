@@ -24,13 +24,6 @@ public class AuthenticationFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) request;
         String authorization = req.getHeader("Authorization");
-        Enumeration<String> headerNames = req.getHeaderNames();
-        while(headerNames.hasMoreElements()) {
-            String headerName = (String)headerNames.nextElement();
-            log.info("header name " + headerName);
-            log.info("value " + req.getHeader(headerName));
-        }
-        log.info("authorization token with {} is {}",authorization,jwtTokenProvider.validateToken(authorization));
         if (!jwtTokenProvider.validateToken(authorization)) {
             HttpServletResponse httpServletResponse = (HttpServletResponse) response;
             httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED);
