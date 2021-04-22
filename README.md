@@ -26,6 +26,12 @@ Application will start on localhost:8080 with next endpoints:
 * POST /data
 * GET /data/{id}
 
+## Tests
+
+For running tests use maven package manager
+
+`mvn test`
+
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
