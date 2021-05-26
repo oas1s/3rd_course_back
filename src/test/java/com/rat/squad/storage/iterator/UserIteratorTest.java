@@ -20,7 +20,7 @@ class UserIteratorTest {
         User user5 = User.builder().age(18).credits(82.0).gender(User.gender.female).name("Kelly").surname("Gun").build();
 
         //Creating users List
-        List<User> userList = new ArrayList<>();
+        UserCollection userList = new UserCollection();
         userList.add(user1);
         userList.add(user2);
         userList.add(user3);
@@ -28,7 +28,7 @@ class UserIteratorTest {
         userList.add(user5);
 
         // Creating iterator and logging Users
-        CustomIterator<User> iterator = new UserIterator(userList);
+        CustomIterator<User> iterator = userList.iterator();
         int count = 0;
         while (iterator.hasNext()) {
             System.out.println(iterator.next().toString());
