@@ -28,7 +28,7 @@ class UserIteratorTest {
         userList.add(user5);
 
         // Creating iterator and logging Users
-        Iterator<User> iterator = new UserIterator(userList);
+        CustomIterator<User> iterator = new UserIterator(userList);
         int count = 0;
         while (iterator.hasNext()) {
             System.out.println(iterator.next().toString());

@@ -11,7 +11,7 @@ import java.util.List;
  * hasNext() returns bool var is Collection having next param
  * next() returns next Collection item
  */
-public class UserIterator implements Iterator<User> {
+public class UserIterator implements CustomIterator<User> {
 
     Collection<User> users;
     List<User> usersArr;
